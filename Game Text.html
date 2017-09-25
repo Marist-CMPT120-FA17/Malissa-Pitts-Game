@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8"/>
+
+		<title> The Game Homework </title>
+
+		<script>
+	
+
+		// Text for North Location	
+		function btnNorth_click() {
+			document.getElementById("gameText").value = "North Location Text"
+			}
+		//Text for South Location
+		function btnSouth_click() {
+			document.getElementById("gameText").value = "South location text";
+			}
+		//Text for West Location
+		function btnWest_click() {
+			document.getElementById("gameText").value = "West location text";
+			}	
+		//Text for East Location
+		function btnEast_click() {
+			document.getElementById("gameText").value = "East location text"
+			}
+		//Score
+		
+		</script>
+	</head>
+
+
+	<body>
+		<b>Desserted in a Dessert</b>
+		<p>Stuck in quicksand? Please email <a href = "mailto:malissa.pitts1@marist.edu"> The Game Master </a> if you have any questions.</p>
+	
+	<br>
+		
+		<textarea 	rows="20" 
+				cols="70" 
+				id = "gameText"		
+				name="gameText">You are standing in the desert: no food, no water.Click a button below.
+		</textarea>
+	
+	<br>
+	<br>	
+		
+		<input type="button"
+			id = "btnNorth"
+			name = "btnNorth"
+			value="North" 
+			onclick="btnNorth_click();" /> 
+
+		<input type="button"
+			id = "btnSouth"
+			name = "btnSouth"
+			value="South" 
+			onclick="btnSouth_click();" /> 
+
+ 		<input type="button"
+			id = "btnWest"
+			name = "btnWest"
+			value="West" 
+			onclick="btnWest_click();" /> 
+
+		<input type="button"
+			id = "btnEast"
+			name = "btnEast"
+			value="East" 
+			onclick="btnEast_click();" /> 
+				
+	</body>
+</html>
