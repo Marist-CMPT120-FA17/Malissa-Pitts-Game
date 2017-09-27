@@ -4,25 +4,32 @@
 		<meta charset=utf-8"/>
 
 		<title> The Game Homework </title>
-
+		<style>
+		body  {
+    			background-image: url("desert.jpeg");
+    			background-color: #cccccc;
+			background-size: 100% 100%;
+			background-repeat: no repeat;
+			}
+		</style>
 		<script>
 		
 			
 		// Text for North Location	
 		function locNorth() {
-			document.getElementById("message").value = "North Location text";
+			document.getElementById("message").value = "You decide to go North but begin questioning whether this was a good idea. You only encounter more desert.";
 			}	
 		//Text for South Location
 		function locSouth() {
-			document.getElementById("message").value = "South location text";
+			document.getElementById("message").value = "You decide to go South. After walking for miles, you spot a caravan in the distance.";
 			}
 		//Text for West Location
 		function locWest() {
-			document.getElementById("message").value = "West location text";
+			document.getElementById("message").value = "You decide to go West. After hours of walking, you stumble upon a grouping of cacti.";
 			}	
 		//Text for East Location
 		function locEast() {
-			document.getElementById("message").value = "East location text";
+			document.getElementById("message").value = "You decide to go East.You encounter more desert until, on the other side of a sand dune, you see a tower of smoke.";
 			}
 		
 		var score = 0;
