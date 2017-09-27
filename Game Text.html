@@ -6,23 +6,30 @@
 		<title> The Game Homework </title>
 
 		<script>
+		
+			
 		// Text for North Location	
-		function btnNorth_click() {
+		function locNorth() {
 			document.getElementById("message").value = "North Location text";
-			}
+			}	
 		//Text for South Location
-		function btnSouth_click() {
+		function locSouth() {
 			document.getElementById("message").value = "South location text";
 			}
 		//Text for West Location
-		function btnWest_click() {
+		function locWest() {
 			document.getElementById("message").value = "West location text";
 			}	
 		//Text for East Location
-		function btnEast_click() {
+		function locEast() {
 			document.getElementById("message").value = "East location text";
 			}
-		//Score
+		
+		var score = 0;
+		function Points() {
+			score += 5;
+        document.getElementById("myScore").innerHTML = score;
+    	}
 		</script>
 	</head>
 
@@ -42,29 +49,15 @@
 	<br>
 	<br>	
 		
-		<input type="button"
-			id = "btnNorth"
-			name = "btnNorth"
-			value="North" 
-			onclick="btnNorth_click();" /> 
-
-		<input type="button"
-			id = "btnSouth"
-			name = "btnSouth"
-			value="South" 
-			onclick="btnSouth_click();" /> 
-
- 		<input type="button"
-			id = "btnWest"
-			name = "btnWest"
-			value="West" 
-			onclick="btnWest_click();" /> 
-
-		<input type="button"
-			id = "btnEast"
-			name = "btnEast"
-			value="East" 
-			onclick="btnEast_click();" /> 
-				
+		<button type="button" onClick="locNorth(); Points (); this.onclick=null;">North</button>
+		
+		<button type="button" onClick="locSouth(); Points ();this.onclick=null;">South</button>
+		
+		<button type="button" onClick="locWest(); Points ();this.onclick=null;">West</button>
+		
+		<button type="button" onClick="locEast(); Points ();this.onclick=null;">East</button>
+	<br>
+	<br>
+	<p>Your score is <a id="myScore">0</a> points!</p>
 	</body>
 </html>
