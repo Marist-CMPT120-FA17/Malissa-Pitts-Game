@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+
+		<title> The Game Homework </title>
+		<style>
+		body  {
+    			background-color: #FCF3CF;
+			}
+		h1   {
+    			color: maroon;
+			}
+		p {
+    			font-family: verdana;
+    			font-size: 20px;
+			}
+		</style>
+		<script>
+		
+			
+		// Text for North Location	
+		function locNorth() {
+			document.getElementById("message").value = "You decide to go North but begin questioning whether this was a good idea. You only encounter more desert.";
+			}	
+		//Text for South Location
+		function locSouth() {
+			document.getElementById("message").value = "You decide to go South. After walking for miles, you spot a caravan in the distance.";
+			}
+		//Text for West Location
+		function locWest() {
+			document.getElementById("message").value = "You decide to go West. After hours of walking, you stumble upon a grouping of cacti.";
+			}	
+		//Text for East Location
+		function locEast() {
+			document.getElementById("message").value = "You decide to go East.You encounter more desert until, on the other side of a sand dune, you see a tower of smoke.";
+			}
+		
+		var score = 0;
+		function Points() {
+			score += 5;
+        document.getElementById("myScore").innerHTML = score;
+    	}
+		</script>
+	</head>
+
+
+	<body>
+		<h1>Deserted in a Desert</h1>
+		<p>Stuck in quicksand? Please email <a href = "mailto:malissa.pitts1@marist.edu"> The Game Master </a> if you have any questions.</p>
+	
+	<br>
+		
+		<textarea 		rows="20" 
+					cols="70" 
+					id = "message"		
+					name="message">You are standing in the desert: no food, no water.Choose a direction below.
+		</textarea>
+	<br>
+	<br>	
+		
+		<button type="button" onClick="locNorth(); Points (); this.onclick=null;">North</button>
+		
+		<button type="button" onClick="locSouth(); Points ();this.onclick=null;">South</button>
+		
+		<button type="button" onClick="locWest(); Points ();this.onclick=null;">West</button>
+		
+		<button type="button" onClick="locEast(); Points ();this.onclick=null;">East</button>
+	<br>
+	<br>
+	<p>Your score is <a id="myScore">0</a> points!</p>
+	</body>
+</html>
