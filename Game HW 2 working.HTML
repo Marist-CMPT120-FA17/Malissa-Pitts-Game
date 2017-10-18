@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8"/>
+	  
+	  <title>
+         Deserted in a Desert
+      </title>
+	  
+	  <script>
+         
+		 // gVariables
+            
+         var curLoc = 0;
+         var score = 0;
+         
+         var visitedLoc0 = false;
+         var visitedLoc1 = false;
+         var visitedLoc2 = false;
+         var visitedLoc3 = false;
+		 var visitedLoc4 = false;
+         var visitedLoc5 = false;         
+         
+         function updateDisplay() {
+            message();
+         }
+	
+		
+         
+         // Buttons (Event)   
+        function btnNorth_click() {
+            if (curLoc === 0) {
+               curLoc = 1;
+               message(); 
+                document.getElementById("btnNorth").disabled = true;
+                document.getElementById("btnSouth").disabled = false;
+                document.getElementById("btnWest").disabled = true;
+                document.getElementById("btnEast").disabled = true;			   
+            } else {
+              if (curLoc === 2) {
+                 curLoc = 0;
+                 message(); 
+                document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = false;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = false;				 
+              } else {
+                updateDisplay("You cannot go that way. Please choose or type a different direction."); 
+				document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = false;
+                document.getElementById("btnWest").disabled = true;
+                document.getElementById("btnEast").disabled = false;
+              }
+            }            
+         }
+		 
+         function btnSouth_click() {
+            if (curLoc === 1) {
+               curLoc = 0;
+               message();
+			    document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = false;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = false;
+            } else {
+              if (curLoc === 0) {
+                 curLoc = 2;
+                 message();
+				document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = true;
+                document.getElementById("btnWest").disabled = true;
+                document.getElementById("btnEast").disabled = true;
+              } else {
+                 updateDisplay("You cannot go that way. Please choose or type a different direction."); 
+				 document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = true;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = false;
+              }
+            }
+         }
+         
+		 function btnWest_click() {
+            if (curLoc === 4) {
+               curLoc = 0;
+               message();
+			   document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = false;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = false;
+              if (curLoc === 0) {
+                 curLoc = 3;
+                 message();
+				 document.getElementById("btnNorth").disabled = true;
+                document.getElementById("btnSouth").disabled = true;
+                document.getElementById("btnWest").disabled = true;
+                document.getElementById("btnEast").disabled = false;
+              } else {
+			   if (curLoc === 5) {
+               curLoc = 4;
+               message();
+			   document.getElementById("btnNorth").disabled = true;
+                document.getElementById("btnSouth").disabled = true;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = false;
+			   }else {
+                 updateDisplay("You cannot go that way. Please choose or type a different direction.");  
+				 document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = false;
+                document.getElementById("btnWest").disabled = true;
+                document.getElementById("btnEast").disabled = false;
+              }
+            }
+          }
+		  }
+		 
+         function btnEast_click() {
+            if (curLoc === 4) {
+               curLoc = 5;
+               message();
+			   document.getElementById("btnNorth").disabled = true;
+                document.getElementById("btnSouth").disabled = true;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = true;
+            } else {
+              if (curLoc === 0) {
+                 curLoc = 4;
+                 message();
+				 document.getElementById("btnNorth").disabled = true;
+                document.getElementById("btnSouth").disabled = true;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = false;
+              } else {
+			   if (curLoc === 3) {
+               curLoc = 0;
+               message();
+			   document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = false;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = false;
+			   }else {
+				updateDisplay("You cannot go that way. Please choose or type a different direction.");
+				document.getElementById("btnNorth").disabled = false;
+                document.getElementById("btnSouth").disabled = false;
+                document.getElementById("btnWest").disabled = false;
+                document.getElementById("btnEast").disabled = true;				
+				}																																																		 
+            }
+          }
+		 }
+		 
+		 
+		 
+         // Location Functions
+         function message() {
+            var loc = "";
+            switch(curLoc) {
+               case 0: loc = "You are standing in the desert: no food, no water.Type in a direction or Click a button below.";
+                       break;
+               case 1: loc = "You decide to go North but begin questioning whether this was a good idea. You only encounter more desert.";
+                       break; 
+               case 2: loc = "You decide to go South. After walking for miles, you spot a caravan in the distance.";
+                       break;
+               case 3: loc = "You decide to go West. After hours of walking, you stumble upon a grouping of cacti.";
+                       break;
+               case 4: loc = "You decide to go East.You encounter more desert until, on the other side of a sand dune, you see a tower of smoke.";
+                       break;
+			   case 5: loc = "You approach an airplane crash site. You see that the pilot is gone but he left supplies behind.";
+					   break;
+               default: loc	= "You cannot go that way. Please choose or type a different direction. ";
+            }
+			   
+            checkScore();
+            loc = loc + "\n" + "Score: " + score ;
+            displayMessage(loc);
+         }
+
+         function checkScore() {
+            if (! visitedLoc0) {            
+               if (curLoc === 0) {
+                  score = score + 5;
+                  visitedLoc0 = true;
+               }
+            } else if ( (! visitedLoc1) && (curLoc === 1) ) {            
+                  score = score + 5;
+                  visitedLoc1 = true;
+            } else if ( (! visitedLoc2) && (curLoc === 2) ) {            
+                  score = score + 5;
+                  visitedLoc2 = true;
+            } else if ( (! visitedLoc3) && (curLoc === 3) ) {            
+                  score = score + 5;
+                  visitedLoc3 = true;
+            } else if ( (! visitedLoc4) && (curLoc === 4) ) {            
+                  score = score + 5;
+                  visitedLoc4 = true;
+			} else if ( (! visitedLoc5) && (curLoc === 5) ) {            
+                  score = score + 5;
+                  visitedLoc5 = true;
+            }            
+         }
+			   
+         function displayMessage(msg) {
+            var target = document.getElementById("taMain");
+            target.value = msg + "\n\n" + target.value;
+			}
+         
+      </script>
+   </head>
+   
+   <body onload="updateDisplay();">
+       <p>Stuck in quicksand? Please email <a href = "mailto:malissa.pitts1@marist.edu"> The Game Master </a> if you have any questions.</p>
+	   
+	   <textarea id="taMain" rows="10" cols="40"></textarea>
+      
+       <br>
+       Command:       
+       <input type="text" 
+              id = "txtCommand"
+              name="txtCommand">
+
+       <input type="button"
+              value="Go" 
+              onclick="btnGo_click();"/>                           
+       <br>
+       <br>
+       <input type="button" 
+              value="North"
+			  id= "btnNorth"
+              onclick="btnNorth_click();">
+			  
+       <input type="button" 
+              value="South"
+			  id= "btnSouth"
+              onclick="btnSouth_click();">
+
+			  <input type="button" 
+              value="West"
+			  id= "btnWest"
+              onclick="btnWest_click();">			  
+      
+	  <input type="button" 
+              value="East"
+			  id= "btnEast"
+              onclick="btnEast_click();">
+			  
+
+              
+</body>
