@@ -98,7 +98,7 @@
             if (curLoc === 4) {
                curLoc = 0;
                message();
-			   document.getElementById("btnNorth").disabled = false;
+		document.getElementById("btnNorth").disabled = false;
                 document.getElementById("btnSouth").disabled = false;
                 document.getElementById("btnWest").disabled = false;
                 document.getElementById("btnEast").disabled = false;
@@ -183,11 +183,34 @@
 					   break;
                default: loc	= "You cannot go that way. Please choose or type a different direction. ";
             }
+
+	//Command Function
+        function btnGo_click() {
+            var playerText = document.getElementById("textCommand").value;
+            var display = "";
+            switch(playerText) {
+                case "n" || "N": 
+                    break;
+                    display = btnNorth_click();
+                case "s" || "S":
+                    break;
+                    display = btnSouth_click();
+                case "w" || "W":
+                    break;
+                    display = btnWest_click();
+ 		case "e" || "E":
+                    break;
+                    display = btnEast_click();
+                default:
+                    display = "Invalid. Please enter N,E,S,or W.";
+                       }
+            }
 			   
             checkScore();
             loc = loc + "\n" + "Score: " + score ;
             displayMessage(loc);
          }
+
          function checkScore() {
             if (! visitedLoc0) {            
                if (curLoc === 0) {
@@ -248,7 +271,7 @@
 			  id= "btnSouth"
               onclick="btnSouth_click();">
 
-			  <input type="button" 
+	<input type="button" 
               value="West"
 			  id= "btnWest"
               onclick="btnWest_click();">			  
