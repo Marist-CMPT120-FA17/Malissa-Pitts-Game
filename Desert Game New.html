@@ -10,8 +10,7 @@
 //Global Variables
 	var currentLoc = 0;
 	var score = 0;
-	var navigationErrorCount = 0;
-	var sarcasmThreshold = 5;
+	var navigationError = 0;
 
 	var hasVisitedLoc0 = false;
 	var hasVisitedLoc1 = false;
@@ -28,14 +27,24 @@
 	function init() {
 		look();
 	}
-	
-	function btnGo_click() {
+	function playerCommand() {
 		var command = document.getElementById("txtCommand").value;
-		command = command.trim();
-		command = command.toUpperCase();
-		command = command.substr(0,2);
-		displayMessage(command);
-	}
+			command = command.trim();
+			command = command.toLowerCase();
+			command = command.substr(0,2);			
+					if (command == "n") {
+						btnNorth_click();
+					} else if (command == "s") {
+						btnSouth_click();
+					} else if (command == "e") {
+						btnEast_click();
+					} else if (command == "w") {
+						btnWest_click();
+					} else {
+						navigationError ();
+						updateDisplay(currentLoc);
+					}
+				}	
 	
 	// Directional Button Event Handlers 
 	function btnNorth_click() {
@@ -161,7 +170,7 @@ function btnEast_click() {
 	
 	//Help Button
 	function btnHelp_click () {
-		window.alert ("Please enter N, S, E, or W as a direction or click the button of the direction that you want to go.");
+		window.alert ("Please enter N, S, E, or W as a direction or click the button of the direction that you want to go. Type list to display your inventory.");
 		}
 		
 	
@@ -284,8 +293,13 @@ function btnEast_click() {
     document.getElementById("btnWest").disabled = false;
     document.getElementById("btnEast").disabled = true;
 	}   
-   
-   
+	
+	function navigationError() {
+		navigationErrorCount = navigationErrorCount + 1;
+			if (navigationErrorCount >= 1){
+			displayMessage("You cannot go that way. Please choose or type a different direction.");           
+         }}
+		 
 	function checkScore() {
 		if (! hasVisitedLoc0) {            
 		if (currentLoc === 0) {
@@ -341,7 +355,7 @@ function btnEast_click() {
 
        <input type="button"
               value="Go" 
-              onclick="btnGo_click();"/>                           
+              onclick="playerCommand ();"/>                           
        <br>
        <br>
 		<input type="button" 
@@ -368,6 +382,8 @@ function btnEast_click() {
 				value="HELP"
 				id= "btnHelp"
 				onclick="btnHelp_click();">
+				
+	<img src="gamemap.jpg" alt="Game Map">
 				
 	<p>Stuck in quicksand? Please email <a href = "mailto:malissa.pitts1@marist.edu"> The Game Master </a> if you have any questions.</p>
 	
