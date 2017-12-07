@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <title>Deserted in a Desert</title>
+  <!--Malissa Pitts Final Project Due: 12/8/2017 -->
+  <!--fix indents and add comments-->
+  
+    <style>
+		body  {
+    			background-color: #E2CC5F;
+			}
+		h1   {
+    			font-family: verdana;
+				color: maroon;
+				text-align: center;
+				text-shadow: 3px 2px yellow;
+				font-size: 300%;
+			}
+		h2   {	
+				font-family: verdana;
+    			color: maroon;
+				text-align: left;
+				font-size: 100%;
+			}
+		p {
+    			font-family: verdana;
+				text-align: center;
+    			font-size: 15px;
+			}
+		ul  {	font-family: verdana;
+    			font-size: 15px;
+			}
+		img	{	border-radius: 10px;
+			}
+		</style>
+  <script type="text/javascript" src="locations.js"></script>
+  <script>
+  var currentLoc = 0;
+  var score = 0;
+  var navigationErrorCount = 0;
+  var quicksandDeath = 6;
+  var hasVisitedLoc0 = false;
+  var hasVisitedLoc1 = false;
+  var hasVisitedLoc2 = false;
+  var hasVisitedLoc3 = false;
+  var hasVisitedLoc4 = false;
+  var hasVisitedLoc5 = false;
+  var hasVisitedLoc6 = false;
+  var hasVisitedLoc7 = false;
+  var hasVisitedLoc8 = false;
+  var hasVisitedLoc9 = false;
+  var knifeTaken = false;
+  var gunTaken = false;
+  var crewTaken = false;
+  
+  function Location(id,name,description,item){
+    this.id=id;
+    this.name=name;
+    this.description=description;
+    this.item=item;
+    this.toString=function() {return "id:" + this.id + " location: " + this.name;}; 
+  }
+  var start_loc = new Location(0, 'Start', start(), '');
+  var sandDunes_loc = new Location(1, 'sandDunes', sandDunes(), '');
+  var cacti_loc = new Location(2, 'cacti', cacti(), '');
+  var caravanApproach_loc = new Location(3, 'caravanApproach', caravanApproach(), '');
+  var caravanHostage_loc = new Location(4, 'caravanHostage', caravanHostage(), '');
+  var caravanCut_loc = new Location(5, 'caravanCut', caravanCut(), '');
+  var caravanEscape_loc = new Location(6, 'caravanEscape', caravanEscape(), '');
+  var caravanFight_loc = new Location(7, 'caravanFight', caravanFight(), '');
+  var planeCrashSite_loc = new Location(8, 'planeCrashSite', planeCrashSite(), '');
+  var caravanHelp_loc = new Location(9, 'caravanHelp', caravanHelp(), '');
+  var ending = new Location(10, 'End', ending(), '');
+  
+  //Global Array- Locations
+  var locations = [start_loc, sandDunes_loc, cacti_loc, caravanApproach_loc, caravanHostage_loc, caravanCut_loc, caravanEscape_loc, caravanFight_loc, planeCrashSite_loc, caravanHelp_loc, ending]
+  
+  function Item(id,name,description){
+    this.id=id;
+    this.name=name;
+    this.description=description;
+    this.toString=function() {return "id:" + this.id + " item: " + this.name;}; 
+  }
+  
+  var water = new Item(0, 'Water', 'Water');
+  var food = new Item(1, 'Food', 'Food');
+  var knife = new Item(2, 'Knife', 'Knife');
+  var gun = new Item(3, 'Gun', 'Gun');
+  var crew = new Item(4, 'Crew', 'Crew');
+  
+  //Global Array for Items
+  var items = [water, food];
+  
+  var matrix = [  [sandDunes_loc,-1,-1, -1], //Desert
+                  [-1,start_loc,cacti_loc,-1], //sandDunes
+                  [-1,caravanApproach_loc,-1,sandDunes_loc], //Cacti
+                  [cacti_loc,-1,-1,caravanHostage_loc], //Caravan Approaching
+                  [caravanCut_loc, -1, caravanApproach_loc, -1], //Caravan Hostage
+                  [-1,caravanHostage_loc,-1,caravanEscape_loc], //Caravan- Planning Escape
+                  [-1,caravanFight_loc,caravanCut_loc,-1], //Caravan Fight
+                  [caravanEscape_loc,-1,planeCrashSite_loc,-1], //Plane Crash Site
+                  [caravanHelp_loc,-1,-1,caravanFight_loc], //Fight with Caravan
+                  [-1,planeCrashSite_loc,-1,ending]]; //Caravan Help
+   
+  // Init Function   
+    function init(){
+        look();
+     }
+    
+   function move(direction){
+          var move = -1;
+          if(direction == 'n'){
+            move = 0;
+          }else if(direction == 's'){
+            move = 1;
+          }else if(direction == 'e'){
+            move = 2;
+          }else if(direction == 'w'){
+            move = 3;
+          }
+		  
+          var location = matrix[currentLoc][move];
+			if(location.id === 10 && move === 3){
+            if(items.length < 5){
+              displayMessage("You must collect all items before you proceed.");
+            }else{
+              currentLoc = location.id;
+              document.getElementById("btnNorth").disabled = true;
+              document.getElementById("btnSouth").disabled = true;
+              document.getElementById("btnEast").disabled = true;
+              document.getElementById("btnWest").disabled = true;
+              look();
+            }
+          }else if(location == -1){
+            navigationError();
+          }else{
+            currentLoc = location.id;
+            var row = matrix[currentLoc];
+            if(row[0] != -1){
+              document.getElementById("btnNorth").disabled = false;
+            }else{
+              document.getElementById("btnNorth").disabled = true;
+            }
+            if(row[1] != -1){
+              document.getElementById("btnSouth").disabled = false;
+            }else{
+              document.getElementById("btnSouth").disabled = true;
+            }
+            if(row[2] != -1){
+              document.getElementById("btnEast").disabled = false;
+            }else{
+              document.getElementById("btnEast").disabled = true;
+            }
+            if(row[3] != -1){
+              document.getElementById("btnWest").disabled = false;
+            }else{
+              document.getElementById("btnWest").disabled = true;
+            }
+            look();
+          }
+         }
+         
+         // Directional Buttons
+         function btnNorth_click() {
+          move('n');
+         }
+         function btnSouth_click() {
+          move('s');
+          }
+         
+         function btnEast_click() {
+          move('e');   
+          }
+         
+         function btnWest_click() {
+          move('w');
+          }
+		  
+     // Location Descriptions
+     function look() {
+         var message = "";
+         message = locations[currentLoc].description;
+         checkScore();
+         message = message + "\n" + "Score: " + score ;
+         displayMessage(message);
+      }
+      function addItemList(input){
+        var list = document.getElementById("itemList");
+        var entry = document.createElement("li");
+        entry.appendChild(document.createTextNode(input));
+        list.appendChild(entry);
+      }
+      
+	  function take(input){
+        if(currentLoc == 4 && input.toLowerCase() == 'knife' && knifeTaken == false){
+          addItemList(knife.name);
+          knifeTaken = true;
+          items.push(knife);
+		}else if(currentLoc == 5 && input.toLowerCase() == 'gun' && gunTaken == false){
+          addItemList(gun.name);
+          gunTaken = true;
+          items.push(gun);
+        }else if(currentLoc == 7 && input.toLowerCase() == 'crew' && crewTaken == false){
+          addItemList(crew.name);
+          crewTaken = true;
+          items.push(crew);
+        }else{
+          displayMessage("There is no item here to take.");
+        }
+      }
+     function inventory(){
+        var itemsString = 'You have:';
+        for(var i = 0; i < items.length; i++){
+          itemsString = itemsString + " " + items[i].name;
+        }
+        displayMessage(itemsString);
+     }
+     
+     function navigationError() {
+         navigationErrorCount = navigationErrorCount + 1;
+         if (navigationErrorCount < quicksandDeath) {
+            displayMessage("You cannot go that way.");
+         } else {
+            displayMessage("You have been overtaken by quicksand and died! Game over!");
+            document.getElementById("btnNorth").disabled = true;
+            document.getElementById("btnSouth").disabled = true;
+            document.getElementById("btnEast").disabled = true;
+            document.getElementById("btnWest").disabled = true;
+            document.getElementById("txtCommand").disabled = true;
+            document.getElementById("goBtn").disabled = true;
+         }          
+      }
+     // Score
+     function checkScore() {
+         if (! hasVisitedLoc0) {            
+            if (currentLoc === 0) {
+               score = 5;
+               hasVisitedLoc0 = true;
+            }
+         } else if ( (!hasVisitedLoc1) && (currentLoc === 1) ) {            
+               score = score + 5;
+               hasVisitedLoc1 = true;
+         } else if ( (!hasVisitedLoc2) && (currentLoc === 2) ) {            
+               score = score + 5;
+               hasVisitedLoc2 = true;
+         } else if ( (!hasVisitedLoc3) && (currentLoc === 3) ) {            
+               score = score + 5;
+               hasVisitedLoc3 = true;
+         } else if ( (!hasVisitedLoc4) && (currentLoc === 4) ) {            
+               score = score + 5;
+               hasVisitedLoc4 = true;
+         } else if ( (!hasVisitedLoc5) && (currentLoc === 5) ) {            
+               score = score + 5;
+               hasVisitedLoc5 = true;
+         } else if ( (!hasVisitedLoc6) && (currentLoc === 6) ) {            
+               score = score + 5;
+               hasVisitedLoc6 = true;      
+         }  else if ( (!hasVisitedLoc7) && (currentLoc === 7) ) {            
+               score = score + 5;
+               hasVisitedLoc7 = true;
+         }  else if ( (!hasVisitedLoc8) && (currentLoc === 8) ) {            
+               score = score + 5;
+               hasVisitedLoc8 = true;
+         }  else if ( (!hasVisitedLoc9) && (currentLoc === 9) ) {            
+               score = score + 5;
+               hasVisitedLoc9 = true;
+         }                  
+      }
+      
+      //Update Display Function
+     function displayMessage(msg) {
+         var target = document.getElementById("taMain");
+         target.value = msg + "\n\n";
+      }
+      function help(){
+        displayMessage("Try using N, S, E, W, n, s, e, w\nIf you find an item use the phrase 'take (item)'\nIf you want to see your inventory, 'i' or see list below\nDon't give up!");
+      }  
+	  
+	  function btnGo_click() {
+		        var input = document.getElementById('txtCommand').value;
+        if(input == 'n' || input == 'N'){
+          btnNorth_click();
+        }else if(input == 's' || input == 'S'){
+          btnSouth_click();
+        }else if(input == 'w' || input == 'W'){
+          btnWest_click();
+        }else if(input == 'e' || input == 'E'){
+          btnEast_click();
+        }else if(input.toLowerCase() == "help"){
+            help();
+        }else if(input.toLowerCase() == 'i'){
+            inventory();
+        }else if(input.substring(0,4).toLowerCase() == "take"){
+            take(input.substring(5,input.length));
+        }else{
+          displayMessage("Please enter n, s, e, or w as a direction or click the button of the direction that you want to go. Type 'i' to display your inventory.");
+        }
+      }
+  </script>
+  
+  </head>
+  <body onload="init()">
+    <h1>Welcome to Your Desert Adventure!</h1>
+    
+	<textarea id="taMain" rows="8" cols="60"></textarea>
+	<br>
+	<input type="button" 
+               value="North"
+               onclick="btnNorth_click();"
+               id="btnNorth">
+        <input type="button" 
+               value="South"
+               onclick="btnSouth_click();"
+               id="btnSouth">
+        <input type="button" 
+               value="East"
+               onclick="btnEast_click();"
+               id="btnEast">
+        <input type="button" 
+               value="West"
+               onclick="btnWest_click();"
+               id="btnWest">
+              
+        
+        <br>
+        Command:       
+        <input type="text" 
+               id = "txtCommand"
+               name="txtCommand">
+
+        <input type="button"
+               value="Go"
+               id="goBtn" 
+               onclick="btnGo_click();" />                           
+       
+        <br>
+        <h2>Items:</h2>
+        <ul id="itemList">
+        <li>Water</li>
+        <li>Food</li>
+        </ul>
+		
+		<p> Stuck in quicksand? Please email <a href = "mailto:malissa.pitts1@marist.edu"> The Game Master </a> if you have any questions.</p>
+        <img src="gamemap.jpg" alt="Game Map">
+
+  </body>
+</html>
